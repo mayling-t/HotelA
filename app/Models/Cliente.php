@@ -12,10 +12,13 @@ class Cliente extends Model
     protected $table = 'clientes';
 
     public $timestamps = false;  // Como no tienes created_at ni updated_at en clientes
-
+    protected $primaryKey = 'id';
+    public $incrementing = false;
     protected $fillable = [
         'id',
         'dni',
+        'nombre',
+        'apellidos',
         'celular',
         'telefono',
         'direccion',
@@ -24,6 +27,6 @@ class Cliente extends Model
     // Relación con Usuario
     public function usuario()
     {
-        return $this->belongsTo(Usuario::class, 'id', 'id');
+        return $this->belongsTo(Usuario::class, 'id');
     }
 }

@@ -19,7 +19,9 @@ Route::post('/logout', [UsuarioController::class, 'logout']);
 // Habitaciones
 Route::get('/habitaciones', [HabitacionController::class, 'index']);
 Route::post('/habitaciones', [HabitacionController::class, 'store']);
-Route::put('/habitaciones/{id}', [HabitacionController::class, 'update']);
+Route::apiResource('habitaciones', HabitacionController::class);
+
+
 Route::get('/habitaciones/disponibles', [HabitacionController::class, 'disponibles']);
 Route::post('/habitaciones/asignar', [HabitacionController::class, 'asignar']);
 Route::get('/habitaciones/buscar-por-tipo', [HabitacionController::class, 'buscarPorTipo']);
@@ -49,3 +51,7 @@ Route::put('/checkin-checkout/{id}', [CheckinCheckoutController::class, 'update'
 Route::get('/reserva-servicios-extras', [ReservaServicioExtraController::class, 'index']);
 Route::post('/reserva-servicios-extras', [ReservaServicioExtraController::class, 'store']);
 Route::delete('/reserva-servicios-extras/{id}', [ReservaServicioExtraController::class, 'destroy']);
+
+
+Route::get('/usuarios', [UsuarioController::class, 'index']);
+Route::post('/usuarios', [UsuarioController::class, 'store']);

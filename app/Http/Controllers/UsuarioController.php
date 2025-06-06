@@ -9,6 +9,16 @@ use Illuminate\Support\Facades\Hash;
 class UsuarioController extends Controller
 {
     // Registrar usuario (cliente o recepcionista)
+    public function index()
+    {
+        return Usuario::all();
+    }
+    public function store(Request $request)
+{
+    $usuario = Usuario::create($request->all());
+    return response()->json($usuario, 201);
+}
+
     public function registro(Request $request)
     {
         $data = $request->validate([

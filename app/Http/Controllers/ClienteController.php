@@ -11,6 +11,8 @@ class ClienteController extends Controller
     public function index()
     {
         return response()->json(Cliente::all(), 200);
+        return Cliente::with('usuario')->get();
+
     }
 
     // Mostrar cliente por id
@@ -25,6 +27,8 @@ class ClienteController extends Controller
     {
         $data = $request->validate([
             'id' => 'required|integer|unique:clientes,id',
+            'nombre' => 'nullable|string|max:255',
+            'apellidos' => 'nullable|string|max:255',
             'dni' => 'required|size:8|unique:clientes,dni',
             'celular' => 'required|string|max:15',
             'telefono' => 'nullable|string|max:15',
@@ -43,6 +47,8 @@ class ClienteController extends Controller
 
         $data = $request->validate([
             'dni' => 'sometimes|required|size:8|unique:clientes,dni,' . $id,
+            'nombre' => 'nullable|string|max:255',
+            'apellidos' => 'nullable|string|max:255',
             'celular' => 'sometimes|required|string|max:15',
             'telefono' => 'nullable|string|max:15',
             'direccion' => 'nullable|string|max:255',
