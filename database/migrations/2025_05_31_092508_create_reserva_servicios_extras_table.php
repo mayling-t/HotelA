@@ -18,6 +18,8 @@ return new class extends Migration
 
             $table->foreign('id_reserva')->references('id')->on('reservas');
             $table->foreign('id_servicio')->references('id')->on('servicios_extras');
+            $table->timestamps();
+
         });
     }
 

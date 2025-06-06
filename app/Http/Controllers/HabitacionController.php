@@ -36,22 +36,37 @@ class HabitacionController extends Controller
 
     // Actualizar habitación
     public function update(Request $request, $id)
-    {
-        $habitacion = Habitacion::findOrFail($id);
+{
+    $habitacion = Habitacion::findOrFail($id);
 
-        $data = $request->validate([
-            'tipo' => 'sometimes|required|in:simple,doble,suite',
-            'precio' => 'sometimes|required|numeric',
-            'capacidad' => 'sometimes|required|integer',
-            'descripcion' => 'nullable|string',
-            'imagen' => 'nullable|string',
-            'estado' => 'sometimes|required|in:disponible,ocupada,mantenimiento,inactiva',
-        ]);
+    $data = $request->validate([
+        'numero' => 'sometimes|required|unique:habitaciones,numero,' . $id,
+        'tipo' => 'sometimes|required|in:simple,doble,suite',
+        'precio' => 'sometimes|required|numeric',
+        'capacidad' => 'sometimes|required|integer',
+        'descripcion' => 'nullable|string',
+        'imagen' => 'nullable|string',
+        'estado' => 'sometimes|required|in:disponible,ocupada,mantenimiento,inactiva',
+    ]);
 
-        $habitacion->update($data);
+    $habitacion->update($data);
 
-        return response()->json(['mensaje' => 'Habitación actualizada', 'habitacion' => $habitacion], 200);
+    return response()->json(['mensaje' => 'Habitación actualizada', 'habitacion' => $habitacion], 200);
+}
+
+
+// Obtener una habitación por su ID
+public function show($id)
+{
+    $habitacion = Habitacion::find($id);
+
+    if (!$habitacion) {
+        return response()->json(['mensaje' => 'Habitación no encontrada'], 404);
     }
+
+    return response()->json($habitacion, 200);
+}
+
 
     // Consultar habitaciones disponibles por fecha
     public function disponibles(Request $request)

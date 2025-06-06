@@ -18,6 +18,8 @@ return new class extends Migration
             $table->dateTime('fecha_checkout')->nullable();
 
             $table->foreign('id_reserva')->references('id')->on('reservas');
+            $table->timestamps();
+
         });
     }
 

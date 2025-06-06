@@ -20,6 +20,8 @@ return new class extends Migration
             $table->text('descripcion')->nullable();
             $table->string('imagen')->nullable();
             $table->enum('estado', ['disponible', 'ocupada', 'mantenimiento', 'inactiva'])->default('disponible');
+            $table->timestamps();
+
         });
     }
 

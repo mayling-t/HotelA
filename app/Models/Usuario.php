@@ -10,7 +10,6 @@ class Usuario extends Authenticatable
     use HasFactory;
 
     protected $table = 'usuarios'; // Nombre de la tabla en la BD
-
     protected $fillable = [
         'nombre',
         'email',
@@ -21,4 +20,6 @@ class Usuario extends Authenticatable
     protected $hidden = [
         'password',
     ];
+    public $timestamps = false; // o true si usas created_at/updated_at
+
 }

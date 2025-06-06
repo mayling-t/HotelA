@@ -21,6 +21,8 @@ return new class extends Migration
 
             $table->foreign('id_cliente')->references('id')->on('clientes');
             $table->foreign('id_habitacion')->references('id')->on('habitaciones');
+            $table->timestamps();
+
         });
     }
 
