@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('clientes', function (Blueprint $table) {
-            $table->unsignedBigInteger('id')->primary();
+            $table->id();
             $table->string('nombre')->nullable();
             $table->string('apellidos')->nullable();
             $table->char('dni', 8)->unique();
@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('telefono', 15)->nullable();
             $table->string('direccion')->nullable();
 
-            $table->foreign('id')->references('id')->on('usuarios')->onDelete('cascade');
             $table->timestamps();
 
         });

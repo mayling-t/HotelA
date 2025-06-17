@@ -23,10 +23,10 @@ class ClienteController extends Controller
     }
 
     // Crear cliente
-    public function store(Request $request)
+     public function store(Request $request)
     {
         $data = $request->validate([
-            'id' => 'required|integer|unique:clientes,id',
+            // 'id' => 'required|integer|unique:clientes,id', // quitar
             'nombre' => 'nullable|string|max:255',
             'apellidos' => 'nullable|string|max:255',
             'dni' => 'required|size:8|unique:clientes,dni',

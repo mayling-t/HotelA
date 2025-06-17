@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ServicioExtra;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB; // Importa el Facade DB
 
 class ServicioExtraController extends Controller
 {
@@ -42,4 +43,22 @@ class ServicioExtraController extends Controller
 
         return response()->json(['mensaje' => 'Servicio extra actualizado', 'servicio' => $servicio], 200);
     }
+    public function asignar(Request $request)
+{
+    $data = $request->validate([
+        'idReserva' => 'required|integer|exists:reservas,id',
+        'idServicio' => 'required|integer|exists:servicio_extras,id',
+    ]);
+
+    // Asumiendo que la tabla pivot 'reserva_servicio_extra' existe:
+    DB::table('reserva_servicio_extra')->insert([
+        'reserva_id' => $data['idReserva'],
+        'servicio_extra_id' => $data['idServicio'],
+        'created_at' => now(),
+        'updated_at' => now()
+    ]);
+
+    return response()->json(['mensaje' => 'Servicio asignado exitosamente'], 200);
+}
+
 }

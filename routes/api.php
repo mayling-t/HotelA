@@ -41,11 +41,15 @@ Route::put('/clientes/{id}', [ClienteController::class, 'update']);
 Route::get('/servicios-extras', [ServicioExtraController::class, 'index']);
 Route::post('/servicios-extras', [ServicioExtraController::class, 'store']);
 Route::put('/servicios-extras/{id}', [ServicioExtraController::class, 'update']);
+Route::post('/servicios-extras/asignar', [ServicioExtraController::class, 'asignar']);
 
 // Check-in / Check-out
 Route::get('/checkin-checkout', [CheckinCheckoutController::class, 'index']);
 Route::post('/checkin-checkout', [CheckinCheckoutController::class, 'store']);
 Route::put('/checkin-checkout/{id}', [CheckinCheckoutController::class, 'update']);
+Route::post('/checkin', [CheckinCheckoutController::class, 'realizarCheckin']);
+Route::post('/checkout', [CheckinCheckoutController::class, 'realizarCheckout']);
+Route::get('/checkinout/historial', [CheckinCheckoutController::class, 'historial']);
 
 // Relación Reserva - Servicios Extras
 Route::get('/reserva-servicios-extras', [ReservaServicioExtraController::class, 'index']);

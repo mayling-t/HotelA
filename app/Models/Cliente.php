@@ -24,9 +24,5 @@ class Cliente extends Model
         'direccion',
     ];
 
-    // Relación con Usuario
-    public function usuario()
-    {
-        return $this->belongsTo(Usuario::class, 'id');
-    }
+    
 }
