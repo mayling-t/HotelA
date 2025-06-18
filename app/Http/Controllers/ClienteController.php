@@ -58,4 +58,15 @@ class ClienteController extends Controller
 
         return response()->json(['mensaje' => 'Cliente actualizado', 'cliente' => $cliente], 200);
     }
+    public function buscarPorDni($dni)
+{
+    $cliente = Cliente::where('dni', $dni)->first();
+
+    if (!$cliente) {
+        return response()->json(['mensaje' => 'Cliente no encontrado'], 404);
+    }
+
+    return response()->json($cliente, 200);
+}
+
 }

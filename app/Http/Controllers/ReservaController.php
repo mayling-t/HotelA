@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reserva;
+use App\Models\Habitacion;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class ReservaController extends Controller
@@ -25,19 +27,31 @@ class ReservaController extends Controller
     }
 
     // Crear reserva
-    public function store(Request $request)
-    {
-        $data = $request->validate([
-            'id_cliente' => 'required|integer|exists:clientes,id',
-            'id_habitacion' => 'required|integer|exists:habitaciones,id',
-            'fecha_inicio' => 'required|date',
-            'fecha_fin' => 'required|date|after_or_equal:fecha_inicio',
-        ]);
+public function store(Request $request)
+{
+    $data = $request->validate([
+        'id_cliente' => 'required|exists:clientes,id',
+        'id_habitacion' => 'required|exists:habitaciones,id',
+        'fecha_inicio' => 'required|date',
+        'fecha_fin' => 'required|date|after_or_equal:fecha_inicio',
+        'estado' => 'nullable|in:confirmada,cancelada,finalizada',
+    ]);
 
-        $reserva = Reserva::create($data);
+    // Establece estado predeterminado como 'confirmada' si no se pasa
+    $data['estado'] = $data['estado'] ?? 'confirmada';
 
-        return response()->json(['mensaje' => 'Reserva confirmada', 'reserva' => $reserva], 201);
+    // Crear la reserva
+    $reserva = Reserva::create($data);
+
+    // Si la reserva está confirmada, actualizar estado de habitación a 'ocupada'
+    if ($data['estado'] === 'confirmada') {
+        $habitacion = Habitacion::find($data['id_habitacion']);
+        $habitacion->estado = 'ocupada';
+        $habitacion->save();
     }
+
+    return response()->json(['mensaje' => 'Reserva registrada y habitación actualizada', 'reserva' => $reserva], 201);
+}
 
     // Cancelar reserva
     public function cancelar($id)
