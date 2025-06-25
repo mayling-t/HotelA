@@ -63,4 +63,34 @@ public function store(Request $request)
 
         return response()->json(['mensaje' => 'Reserva cancelada correctamente'], 200);
     }
+    
+ public function reservasPorCliente($id)
+{
+    $reservas = Reserva::with('habitacion')->where('id_cliente', $id)->get();
+
+    if ($reservas->isEmpty()) {
+        return response()->json([]);
+    }
+
+    $reservasTransformadas = $reservas->map(function ($reserva) {
+        return [
+            'id' => $reserva->id,
+            'fecha_inicio' => $reserva->fecha_inicio,
+            'fecha_fin' => $reserva->fecha_fin,
+            'estado' => $reserva->estado,
+            'habitacion' => $reserva->habitacion ? [
+                'id' => $reserva->habitacion->id,
+                'nombre' => $reserva->habitacion->nombre,
+                'precio' => $reserva->habitacion->precio,
+            ] : null,
+            'precio' => $reserva->habitacion->precio ?? 0, // Esto evita el error de toFixed
+        ];
+    });
+
+    return response()->json($reservasTransformadas);
+}
+
+
+
+
 }
