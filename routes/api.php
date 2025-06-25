@@ -10,11 +10,17 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ServicioExtraController;
 use App\Http\Controllers\CheckinCheckoutController;
 use App\Http\Controllers\ReservaServicioExtraController;
+use App\Http\Controllers\PagoController;
 
-// Usuarios (registro y login — sin seguridad)
-Route::post('/registro', [UsuarioController::class, 'registro']);
-Route::post('/login', [UsuarioController::class, 'login']);
-Route::post('/logout', [UsuarioController::class, 'logout']);
+Route::post('/cliente/register', [ClienteController::class, 'register']);
+Route::post('/cliente/login', [ClienteController::class, 'login']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/cliente/me', [ClienteController::class, 'me']);
+    Route::post('/cliente/logout', [ClienteController::class, 'logout']);
+});
+
+
 
 // Habitaciones
 Route::get('/habitaciones/disponibles', [HabitacionController::class, 'disponibles']);
@@ -30,17 +36,25 @@ Route::put('/reservas/{id}/cancelar', [ReservaController::class, 'cancelar']);
 Route::get('/habitaciones/{id}/disponibilidad', [HabitacionController::class, 'disponibilidadPorHabitacion']);
 
 // Clientes
+
 Route::get('/clientes', [ClienteController::class, 'index']);
 Route::get('/clientes/{id}', [ClienteController::class, 'show']);
 Route::post('/clientes', [ClienteController::class, 'store']);
 Route::put('/clientes/{id}', [ClienteController::class, 'update']);
 Route::get('/clientes/{dni}/buscar', [ClienteController::class, 'buscarPorDni']);
-
+Route::get('/clientes/{id}/reservas', [ReservaController::class, 'reservasPorCliente']);
 // Servicios Extras
 Route::get('/servicios-extras', [ServicioExtraController::class, 'index']);
 Route::post('/servicios-extras', [ServicioExtraController::class, 'store']);
 Route::put('/servicios-extras/{id}', [ServicioExtraController::class, 'update']);
 Route::post('/servicios-extras/asignar', [ServicioExtraController::class, 'asignar']);
+
+
+Route::get('/pagos', [PagoController::class, 'index']);
+Route::post('/pagos', [PagoController::class, 'store']);
+Route::get('/pagos/{id}', [PagoController::class, 'show']);
+Route::put('/pagos/{id}', [PagoController::class, 'update']);
+Route::delete('/pagos/{id}', [PagoController::class, 'destroy']);
 
 // Check-in / Check-out
 Route::get('/checkin-checkout', [CheckinCheckoutController::class, 'index']);
