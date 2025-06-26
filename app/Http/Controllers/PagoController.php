@@ -41,15 +41,16 @@ public function store(Request $request)
         return response()->json(['error' => 'El cliente no tiene reservas.'], 404);
     }
 
-    // Obtener precio habitación
+    // 🚫 Si ya fue pagada
+    if ($reserva->estado === 'finalizada') {
+        return response()->json(['error' => 'Esta reserva ya ha sido pagada.'], 400);
+    }
+
+    // Obtener precios
     $habitacion = $reserva->habitacion;
     $precioHabitacion = $habitacion ? $habitacion->precio : 0;
-
-    // Obtener precio de servicios extras
     $servicios = $reserva->serviciosExtras;
     $totalServicios = $servicios->sum('precio');
-
-    // Calcular monto total
     $montoTotal = $precioHabitacion + $totalServicios;
 
     // Registrar el pago
@@ -59,16 +60,16 @@ public function store(Request $request)
         'fecha_pago' => $request->fecha_pago,
         'metodo_pago' => $request->metodo_pago,
     ]);
-    
-$reserva->estado = 'finalizada';
+
+    // Actualizar estado reserva
+    $reserva->estado = 'finalizada';
     $reserva->save();
 
-    // (Opcional) Liberar habitación
+    // Liberar habitación
     if ($habitacion) {
-        $habitacion->estado = 'libre';
+        $habitacion->estado = 'disponible';
         $habitacion->save();
     }
-
 
     return response()->json([
         'mensaje' => 'Pago registrado correctamente.',
@@ -76,6 +77,7 @@ $reserva->estado = 'finalizada';
         'pago' => $pago
     ], 201);
 }
+
 
     public function show($id)
     {
