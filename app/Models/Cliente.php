@@ -6,7 +6,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Cliente extends Authenticatable
+class Cliente extends Model
 {
     use HasFactory;
 
@@ -23,8 +23,7 @@ class Cliente extends Authenticatable
         'celular',
         'telefono',
         'direccion',
-        'email',
-        'password',
+        
     ];
 public function reservas()
 {
