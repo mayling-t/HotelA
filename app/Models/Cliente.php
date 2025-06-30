@@ -12,12 +12,13 @@ class Cliente extends Model
 
     protected $table = 'clientes';
 
-    public $timestamps = false;  // Como no tienes created_at ni updated_at en clientes
+    public $timestamps = true; // Tu migración sí tiene timestamps
     protected $primaryKey = 'id';
-    public $incrementing = false;
+    public $incrementing = true;
+
     protected $fillable = [
-        'id',
         'dni',
+        'email',
         'nombre',
         'apellidos',
         'celular',
@@ -33,6 +34,4 @@ protected $hidden = [
         'password',
         'remember_token',
     ];
-
-    
 }
