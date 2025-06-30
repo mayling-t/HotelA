@@ -12,14 +12,6 @@ use App\Http\Controllers\CheckinCheckoutController;
 use App\Http\Controllers\ReservaServicioExtraController;
 use App\Http\Controllers\PagoController;
 
-Route::post('/cliente/register', [ClienteController::class, 'register']);
-Route::post('/cliente/login', [ClienteController::class, 'login']);
-
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/cliente/me', [ClienteController::class, 'me']);
-    Route::post('/cliente/logout', [ClienteController::class, 'logout']);
-});
-
 
 
 // Habitaciones
