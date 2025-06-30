@@ -30,6 +30,7 @@ class ClienteController extends Controller
             'nombre' => 'nullable|string|max:255',
             'apellidos' => 'nullable|string|max:255',
             'dni' => 'required|size:8|unique:clientes,dni',
+            'email' => 'required|email|unique:clientes,email',
             'celular' => 'required|string|max:15',
             'telefono' => 'nullable|string|max:15',
             'direccion' => 'nullable|string|max:255',
