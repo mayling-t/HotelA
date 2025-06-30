@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 
 class ClienteController extends Controller
 {
+
     // Listar clientes
     public function index()
     {
