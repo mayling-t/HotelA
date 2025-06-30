@@ -18,7 +18,7 @@ class ReservaServicioExtraController extends Controller
     {
         $data = $request->validate([
             'id_reserva' => 'required|integer|exists:reservas,id',
-            'id_servicio_extra' => 'required|integer|exists:servicios_extras,id',
+'id_servicio_extra' => 'required|integer|exists:servicios_extras,id',
         ]);
 
         $relacion = ReservaServicioExtra::create($data);

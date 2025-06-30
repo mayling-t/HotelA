@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Cliente;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Hash;
+
 
 class ClienteController extends Controller
 {
+
     // Listar clientes
     public function index()
     {
@@ -68,6 +72,18 @@ class ClienteController extends Controller
     }
 
     return response()->json($cliente, 200);
+}
+public function listarReservas($clienteId)
+{
+    $cliente = Cliente::find($clienteId);
+
+    if (!$cliente) {
+        return response()->json(['mensaje' => 'Cliente no encontrado'], 404);
+    }
+
+    $reservas = $cliente->reservas; // esto funciona con la relación correcta
+
+    return response()->json($reservas, 200);
 }
 
 }

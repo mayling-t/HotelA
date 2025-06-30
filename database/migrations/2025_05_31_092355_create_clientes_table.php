@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('celular', 15);
             $table->string('telefono', 15)->nullable();
             $table->string('direccion')->nullable();
-
+            
             $table->timestamps();
 
         });
