@@ -10,11 +10,13 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ServicioExtraController;
 use App\Http\Controllers\CheckinCheckoutController;
 use App\Http\Controllers\ReservaServicioExtraController;
+use App\Http\Controllers\RegistroController;
 
 // Usuarios (registro y login — sin seguridad)
 Route::post('/registro', [UsuarioController::class, 'registro']);
 Route::post('/login', [UsuarioController::class, 'login']);
 Route::post('/logout', [UsuarioController::class, 'logout']);
+Route::post('/registro-cliente', [RegistroController::class, 'registrar']);
 
 // Habitaciones
 Route::get('/habitaciones/disponibles', [HabitacionController::class, 'disponibles']);
