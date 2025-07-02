@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Models;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,11 +11,8 @@ class Cliente extends Model
 
     protected $table = 'clientes';
 
-    public $timestamps = true; // Tu migración sí tiene timestamps
-    protected $primaryKey = 'id';
-    public $incrementing = true;
-
     protected $fillable = [
+        'user_id',        // ✅ ¡esto era lo que faltaba!
         'dni',
         'email',
         'nombre',
@@ -24,14 +20,13 @@ class Cliente extends Model
         'celular',
         'telefono',
         'direccion',
-        
     ];
-public function reservas()
-{
-    return $this->hasMany(Reserva::class, 'id_cliente');
-}
-protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+
+    public $timestamps = true;
+
+    // (opcional) relación con el usuario
+    public function usuario()
+    {
+        return $this->belongsTo(Usuario::class, 'user_id');
+    }
 }
