@@ -3,62 +3,44 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\Models\Usuario;
 use App\Models\Cliente;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Exception;
 
 class RegistroController extends Controller
 {
     public function registrar(Request $request)
     {
-        $data = $request->validate([
-            'nombre' => 'required|string|max:100',
-            'apellidos' => 'required|string|max:100',
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'apellidos' => 'required|string|max:255',
             'dni' => 'required|digits:8|unique:clientes,dni',
             'email' => 'required|email|unique:usuarios,email|unique:clientes,email',
+            'password' => 'required|string|min:6|confirmed',
             'celular' => 'required|string|max:15',
-            'telefono' => 'nullable|string|max:15',
-            'direccion' => 'nullable|string|max:255',
-            'password' => 'required|string|min:6',
         ]);
 
-        try {
-            DB::beginTransaction();
+        $usuario = Usuario::create([
+            'nombre' => $request->nombre,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'rol' => 'cliente',
+        ]);
 
-            $usuario = Usuario::create([
-                'nombre' => $data['nombre'],
-                'email' => $data['email'],
-                'password' => Hash::make($data['password']),
-                'rol' => 'cliente',
-            ]);
+        $cliente = Cliente::create([
+            'user_id' => $usuario->id, // 👈 muy importante
+            'nombre' => $request->nombre,
+            'apellidos' => $request->apellidos,
+            'dni' => $request->dni,
+            'email' => $request->email,
+            'celular' => $request->celular,
+            'telefono' => $request->telefono,
+            'direccion' => $request->direccion,
+        ]);
 
-            Cliente::create([
-                'nombre' => $data['nombre'],
-                'apellidos' => $data['apellidos'],
-                'dni' => $data['dni'],
-                'email' => $data['email'],
-                'celular' => $data['celular'],
-                'telefono' => $data['telefono'] ?? '',
-                'direccion' => $data['direccion'] ?? '',
-            ]);
-
-            DB::commit();
-
-            return response()->json([
-                'mensaje' => 'Cliente y usuario registrados correctamente',
-                'usuario' => $usuario
-            ], 201);
-
-        } catch (Exception $e) {
-            DB::rollBack();
-            Log::error("Error al registrar cliente: " . $e->getMessage());
-            return response()->json([
-                'mensaje' => 'Error al registrar cliente',
-                'error' => $e->getMessage()
-            ], 500);
-        }
+        return response()->json([
+            'usuario' => $usuario,
+            'cliente' => $cliente,
+        ], 201);
     }
 }

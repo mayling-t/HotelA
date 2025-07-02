@@ -36,31 +36,26 @@ class UsuarioController extends Controller
     }
 
     // Login
-    public function login(Request $request)
-    {
-        $data = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string',
-        ]);
+   public function login(Request $request)
+{
+    $credentials = $request->only('email', 'password');
 
-        $usuario = Usuario::where('email', $data['email'])->first();
+    $usuario = Usuario::where('email', $credentials['email'])->first();
 
-        if (!$usuario || !Hash::check($data['password'], $usuario->password)) {
-            return response()->json(['mensaje' => 'Credenciales incorrectas'], 401);
-        }
-
-        // Crear token (puedes usar Laravel Sanctum o Passport, aquí un token simple)
-        $token = $usuario->createToken('auth_token')->plainTextToken;
-
-        return response()->json([
-            'usuario' => [
-                'id' => $usuario->id,
-                'nombre' => $usuario->nombre,
-                'rol' => $usuario->rol,
-            ],
-            'token' => $token,
-        ], 200);
+    if (!$usuario || !Hash::check($credentials['password'], $usuario->password)) {
+        return response()->json(['mensaje' => 'Credenciales inválidas'], 401);
     }
+
+    $cliente = \App\Models\Cliente::where('user_id', $usuario->id)->first();
+
+    return response()->json([
+        'mensaje' => 'Login exitoso',
+        'usuario' => $usuario,
+        'cliente_id' => $cliente ? $cliente->id : null,
+        'token' => $usuario->createToken('auth_token')->plainTextToken,
+    ]);
+}
+
 
     // Logout
     public function logout(Request $request)
