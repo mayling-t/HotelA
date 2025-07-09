@@ -40,9 +40,17 @@ class ClienteController extends Controller
             'direccion' => 'nullable|string|max:255',
         ]);
 
-        $cliente = Cliente::create($data);
-
-        return response()->json(['mensaje' => 'Cliente creado', 'cliente' => $cliente], 201);
+        $cliente = new Cliente();
+        $cliente->nombre = $request->nombre;
+        $cliente->apellidos = $request->apellidos;
+        $cliente->dni = $request->dni;
+        $cliente->email = $request->email;
+        $cliente->celular = $request->celular;
+        $cliente->telefono = $request->telefono;
+        $cliente->direccion = $request->direccion;
+        $cliente->save();
+    
+        return response()->json(['mensaje' => 'Cliente registrado por recepcionista'], 201);
     }
 
     // Actualizar cliente
