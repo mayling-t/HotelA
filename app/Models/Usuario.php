@@ -4,15 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-
 
 class Usuario extends Authenticatable
 {
-    use HasApiTokens, HasFactory;
+    public $timestamps = false; // ✅ IMPORTANTE: Desactiva los campos created_at y updated_at
 
+    use HasApiTokens, HasFactory, Notifiable;
 
-    protected $table = 'usuarios'; // Nombre de la tabla en la BD
     protected $fillable = [
         'nombre',
         'email',
@@ -22,7 +22,15 @@ class Usuario extends Authenticatable
 
     protected $hidden = [
         'password',
+        'remember_token',
     ];
-    public $timestamps = false; // o true si usas created_at/updated_at
 
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+     // ✅ RELACIÓN: Usuario tiene un Cliente
+    public function cliente()
+    {
+        return $this->hasOne(Cliente::class, 'user_id');
+    }
 }

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('clientes', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('usuarios')->onDelete('cascade'); // 🔥 Esta línea es clave
             $table->string('nombre')->nullable();
             $table->string('apellidos')->nullable();
             $table->char('dni', 8)->unique();
@@ -20,15 +21,10 @@ return new class extends Migration
             $table->string('celular', 15);
             $table->string('telefono', 15)->nullable();
             $table->string('direccion')->nullable();
-            
             $table->timestamps();
-
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('clientes');
