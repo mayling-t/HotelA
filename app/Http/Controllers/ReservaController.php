@@ -11,20 +11,17 @@ class ReservaController extends Controller
 {
     // Listar todas las reservas
     public function index(Request $request)
-    {
-        // Si hay filtro por fecha
-        if ($request->has('fecha')) {
-            $fecha = $request->query('fecha');
+{
+    $query = Reserva::with('cliente', 'habitacion');
 
-            $reservas = Reserva::where('fecha_inicio', '<=', $fecha)
-                ->where('fecha_fin', '>=', $fecha)
-                ->get();
-
-            return response()->json($reservas, 200);
-        }
-
-        return response()->json(Reserva::all(), 200);
+    // Si quieres filtrar por fecha
+    if ($request->has('fecha')) {
+        $query->where('fecha_inicio', '<=', $request->fecha)
+              ->where('fecha_fin', '>=', $request->fecha);
     }
+
+    return response()->json($query->get());
+}
 
     // Crear reserva
 public function store(Request $request)
@@ -64,32 +61,30 @@ public function store(Request $request)
         return response()->json(['mensaje' => 'Reserva cancelada correctamente'], 200);
     }
     
- public function reservasPorCliente($id)
-{
-    $reservas = Reserva::with('habitacion')->where('id_cliente', $id)->get();
-
-    if ($reservas->isEmpty()) {
-        return response()->json([]);
+    public function reservasPorCliente($id)
+    {
+        $reservas = Reserva::with('habitacion')->where('id_cliente', $id)->get();
+    
+        if ($reservas->isEmpty()) {
+            return response()->json([]);
+        }
+    
+        $reservasTransformadas = $reservas->map(function ($reserva) {
+            return [
+                'id' => $reserva->id,
+                'fecha_inicio' => $reserva->fecha_inicio,
+                'fecha_fin' => $reserva->fecha_fin,
+                'estado' => $reserva->estado,
+                'habitacion' => $reserva->habitacion ? [
+                    'numero' => $reserva->habitacion->numero, // Mostrar número de habitación
+                    'precio' => $reserva->habitacion->precio,
+                ] : null,
+                'precio' => $reserva->habitacion->precio ?? 0,
+            ];
+        });
+    
+        return response()->json($reservasTransformadas);
     }
-
-    $reservasTransformadas = $reservas->map(function ($reserva) {
-        return [
-            'id' => $reserva->id,
-            'fecha_inicio' => $reserva->fecha_inicio,
-            'fecha_fin' => $reserva->fecha_fin,
-            'estado' => $reserva->estado,
-            'habitacion' => $reserva->habitacion ? [
-                'id' => $reserva->habitacion->id,
-                'nombre' => $reserva->habitacion->nombre,
-                'precio' => $reserva->habitacion->precio,
-            ] : null,
-            'precio' => $reserva->habitacion->precio ?? 0, // Esto evita el error de toFixed
-        ];
-    });
-
-    return response()->json($reservasTransformadas);
-}
-
 
 
 

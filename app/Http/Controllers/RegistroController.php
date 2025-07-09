@@ -22,19 +22,19 @@ class RegistroController extends Controller
             'celular' => 'required|string|max:15',
             'telefono' => 'nullable|string|max:15',
             'direccion' => 'nullable|string|max:255',
-            'password' => 'required|string|min:6',
+            'password' => 'required|string|min:6', // Validación para la contraseña
         ]);
-
+    
         try {
             DB::beginTransaction();
-
+    
             $usuario = Usuario::create([
                 'nombre' => $data['nombre'],
                 'email' => $data['email'],
-                'password' => Hash::make($data['password']),
+                'password' => Hash::make($data['password']), // Encriptar la contraseña
                 'rol' => 'cliente',
             ]);
-
+    
             Cliente::create([
                 'nombre' => $data['nombre'],
                 'apellidos' => $data['apellidos'],
@@ -44,14 +44,14 @@ class RegistroController extends Controller
                 'telefono' => $data['telefono'] ?? '',
                 'direccion' => $data['direccion'] ?? '',
             ]);
-
+    
             DB::commit();
-
+    
             return response()->json([
                 'mensaje' => 'Cliente y usuario registrados correctamente',
                 'usuario' => $usuario
             ], 201);
-
+    
         } catch (Exception $e) {
             DB::rollBack();
             Log::error("Error al registrar cliente: " . $e->getMessage());

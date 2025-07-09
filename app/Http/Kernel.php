@@ -9,6 +9,8 @@ class Kernel extends HttpKernel
     protected $middleware = [
         // middleware globales aquí (normalmente ninguno por defecto)
         \Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests::class,
+        \Illuminate\Http\Middleware\HandleCors::class,
+
     ];
 
     protected $middlewareGroups = [
@@ -23,6 +25,7 @@ class Kernel extends HttpKernel
 
         'api' => [
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class, // 👈 importante para Sanctum
+
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
