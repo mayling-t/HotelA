@@ -59,9 +59,13 @@ class UsuarioController extends Controller
 
     // Logout
     public function logout(Request $request)
-    {
-        $request->user()->currentAccessToken()->delete();
-
-        return response()->json(['mensaje' => 'Sesión cerrada'], 200);
+{
+    if (!$request->user()) {
+        return response()->json(['mensaje' => 'Usuario no autenticado'], 401);
     }
+
+    $request->user()->currentAccessToken()->delete();
+
+    return response()->json(['mensaje' => 'Sesión cerrada'], 200);
+}
 }
