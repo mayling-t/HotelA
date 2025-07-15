@@ -40,7 +40,11 @@ Route::get('/clientes/{id}', [ClienteController::class, 'show']);
 Route::post('/clientes', [ClienteController::class, 'store']);
 Route::put('/clientes/{id}', [ClienteController::class, 'update']);
 Route::get('/clientes/{dni}/buscar', [ClienteController::class, 'buscarPorDni']);
-Route::get('/clientes/{id}/reservas', [ReservaController::class, 'reservasPorCliente']);
+Route::get('/cliente/{id}/reservas', [ClienteController::class, 'listarReservas']);
+Route::get('/cliente/usuario/{id}', [ClienteController::class, 'buscarPorUsuario']);
+
+
+
 // Servicios Extras
 Route::get('/servicios-extras', [ServicioExtraController::class, 'index']);
 Route::post('/servicios-extras', [ServicioExtraController::class, 'store']);
