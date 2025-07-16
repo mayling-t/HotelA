@@ -43,7 +43,7 @@ class RegistroController extends Controller
                 'celular' => $data['celular'],
                 'telefono' => $data['telefono'] ?? '',
                 'direccion' => $data['direccion'] ?? '',
-                'user_id' => $usuario->id,
+                //'user_id' => $usuario->id,
 
             ]);
     
