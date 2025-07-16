@@ -224,4 +224,6 @@ public function disponibilidadPorHabitacion(Request $request, $id)
     ]);
 }
 
+
+
 }
