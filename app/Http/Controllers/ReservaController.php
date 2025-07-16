@@ -104,6 +104,7 @@ public function store(Request $request)
                 'habitacion' => $reserva->habitacion ? [
                     'numero' => $reserva->habitacion->numero, // Mostrar número de habitación
                     'precio' => $reserva->habitacion->precio,
+                    'imagen' => $reserva->habitacion->imagen, 
                 ] : null,
                 'precio' => $reserva->habitacion->precio ?? 0,
             ];
