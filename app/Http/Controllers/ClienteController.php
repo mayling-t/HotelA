@@ -121,6 +121,7 @@ $reservas = $cliente->reservas()->with('habitacion')->get();
 
         return response()->json($reservas, 200);
     }
+    
     public function buscarPorUsuario($id)
 {
     $cliente = Cliente::where('user_id', $id)->first();

@@ -88,29 +88,29 @@ public function store(Request $request)
 
     
     public function reservasPorCliente($id)
-{
-    $reservas = Reserva::with('habitacion')->where('id_cliente', $id)->get();
-
-    if ($reservas->isEmpty()) {
-        return response()->json([]);
+    {
+        $reservas = Reserva::with('habitacion')->where('id_cliente', $id)->get();
+    
+        if ($reservas->isEmpty()) {
+            return response()->json([]);
+        }
+    
+        $reservasTransformadas = $reservas->map(function ($reserva) {
+            return [
+                'id' => $reserva->id,
+                'fecha_inicio' => $reserva->fecha_inicio,
+                'fecha_fin' => $reserva->fecha_fin,
+                'estado' => $reserva->estado,
+                'habitacion' => $reserva->habitacion ? [
+                    'numero' => $reserva->habitacion->numero, // Mostrar número de habitación
+                    'precio' => $reserva->habitacion->precio,
+                ] : null,
+                'precio' => $reserva->habitacion->precio ?? 0,
+            ];
+        });
+    
+        return response()->json($reservasTransformadas);
     }
-
-    $reservasTransformadas = $reservas->map(function ($reserva) {
-        $habitacion = $reserva->habitacion;
-        return [
-            'id' => $reserva->id,
-            'fecha_inicio' => $reserva->fecha_inicio,
-            'fecha_fin' => $reserva->fecha_fin,
-            'estado' => $reserva->estado,
-            'habitacion' => $habitacion ? [
-                'numero' => $habitacion->numero,
-                'precio' => $habitacion->precio,
-            ] : null,
-        ];
-    });
-
-    return response()->json($reservasTransformadas);
-}
 
 public function show($id)
 {

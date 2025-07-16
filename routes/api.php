@@ -34,6 +34,8 @@ Route::get('/reservas/{id}/servicios-extras', [ReservaController::class, 'show']
 Route::get('/reservas', [ReservaController::class, 'index']);
 Route::post('/reservas', [ReservaController::class, 'store']);
 Route::put('/reservas/{id}/cancelar', [ReservaController::class, 'cancelar']);
+Route::get('/reservas/cliente/{id}', [ReservaController::class, 'reservasPorCliente']);
+
 Route::get('/habitaciones/{id}/disponibilidad', [HabitacionController::class, 'disponibilidadPorHabitacion']);
 Route::get('/reservas/cliente/{id}', [ReservaController::class, 'reservasPorCliente']);
 
