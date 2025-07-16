@@ -9,8 +9,8 @@ return [
     'allowed_origins' => [
         'http://localhost:5173',
         'http://127.0.0.1:5173',
+        'https://hotelcieloazul.proyectosistta.site',
     ],
-
 
     'allowed_origins_patterns' => [],
 
@@ -20,6 +20,6 @@ return [
 
     'max_age' => 0,
 
-    'supports_credentials' => false,
+    'supports_credentials' => true, // ← MUY IMPORTANTE si usas auth/session/cookies
 
 ];
