@@ -24,9 +24,16 @@ class Reserva extends Model
 {
     return $this->belongsTo(Habitacion::class, 'id_habitacion');
 }
-    public function serviciosExtras()
+    
+
+public function serviciosExtras()
 {
-    return $this->belongsToMany(ServicioExtra::class, 'reserva_servicios_extras', 'id_reserva', 'id_servicio');
+    return $this->belongsToMany(
+        \App\Models\ServicioExtra::class,
+        'reserva_servicios_extras',  // tabla pivote
+        'id_reserva',                // clave local
+        'id_servicio_extra'         // clave relacionada
+    );
 }
 
 

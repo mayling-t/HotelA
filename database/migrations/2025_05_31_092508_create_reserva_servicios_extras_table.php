@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('reserva_servicios_extras', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_reserva');
-            $table->unsignedBigInteger('id_servicio');
+            $table->unsignedBigInteger('id_servicio_extra');
 
             $table->foreign('id_reserva')->references('id')->on('reservas');
-            $table->foreign('id_servicio')->references('id')->on('servicios_extras');
+            $table->foreign('id_servicio_extra')->references('id')->on('servicios_extras')->onDelete('cascade');
             $table->timestamps();
 
         });

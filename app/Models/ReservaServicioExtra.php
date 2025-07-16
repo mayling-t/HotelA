@@ -7,14 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class ReservaServicioExtra extends Model
 {
-    use HasFactory;
-
     protected $table = 'reserva_servicios_extras';
 
-    public $timestamps = false;
+    protected $fillable = ['id_reserva', 'id_servicio_extra'];
 
-    protected $fillable = [
-        'id_reserva',
-        'id_servicio',
-    ];
+    public $timestamps = false; // Si no usas timestamps
 }
