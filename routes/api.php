@@ -21,15 +21,15 @@ Route::post('/logout', [UsuarioController::class, 'logout']);
 Route::post('/registro-cliente', [RegistroController::class, 'registrar']);
 
 // Habitaciones
-//Route::post('/habitaciones', [HabitacionController::class, 'store']);
-//Route::get('/habitaciones', [HabitacionController::class, 'index']);    // para listar habitaciones
+Route::post('/habitaciones', [HabitacionController::class, 'store']);
+Route::get('/habitaciones', [HabitacionController::class, 'index']);    // para listar habitaciones
 
-//Route::get('/habitaciones/disponibles', [HabitacionController::class, 'disponibles']);
-//Route::post('/habitaciones/asignar', [HabitacionController::class, 'asignar']);
-//Route::get('/habitaciones/buscar-por-tipo', [HabitacionController::class, 'buscarPorTipo']);
+Route::get('/habitaciones/disponibles', [HabitacionController::class, 'disponibles']);
+Route::post('/habitaciones/asignar', [HabitacionController::class, 'asignar']);
+Route::get('/habitaciones/buscar-por-tipo', [HabitacionController::class, 'buscarPorTipo']);
 
 // Finalmente el recurso RESTful (apiResource)
-Route::apiResource('habitaciones', HabitacionController::class);
+//Route::apiResource('habitaciones', HabitacionController::class);
 // Reservas
 
 Route::get('/reservas/{id}/servicios-extras', [ReservaController::class, 'show']);
