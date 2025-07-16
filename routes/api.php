@@ -21,6 +21,8 @@ Route::post('/logout', [UsuarioController::class, 'logout']);
 Route::post('/registro-cliente', [RegistroController::class, 'registrar']);
 
 // Habitaciones
+Route::post('/habitaciones', [HabitacionController::class, 'store']);
+
 Route::get('/habitaciones/disponibles', [HabitacionController::class, 'disponibles']);
 Route::post('/habitaciones/asignar', [HabitacionController::class, 'asignar']);
 Route::get('/habitaciones/buscar-por-tipo', [HabitacionController::class, 'buscarPorTipo']);
