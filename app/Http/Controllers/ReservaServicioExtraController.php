@@ -18,12 +18,15 @@ class ReservaServicioExtraController extends Controller
     {
         $data = $request->validate([
             'id_reserva' => 'required|integer|exists:reservas,id',
-'id_servicio_extra' => 'required|integer|exists:servicios_extras,id',
+            'id_servicio_extra' => 'required|integer|exists:servicios_extras,id',
         ]);
 
         $relacion = ReservaServicioExtra::create($data);
 
-        return response()->json(['mensaje' => 'Servicio extra asignado a reserva', 'relacion' => $relacion], 201);
+        return response()->json([
+            'mensaje' => 'Servicio extra asignado a reserva',
+            'relacion' => $relacion
+        ], 201);
     }
 
     // Eliminar relación
@@ -34,4 +37,12 @@ class ReservaServicioExtraController extends Controller
 
         return response()->json(['mensaje' => 'Relación eliminada'], 200);
     }
+
+    // Obtener servicios extras de una reserva
+    public function serviciosPorReserva($id_reserva)
+{
+    $reserva = \App\Models\Reserva::with(['serviciosExtras', 'cliente', 'habitacion'])->findOrFail($id_reserva);
+    return response()->json($reserva);
+}
+
 }

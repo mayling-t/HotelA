@@ -96,4 +96,16 @@ public function store(Request $request)
         Pago::destroy($id);
         return response()->noContent();
     }
+
+    public function obtenerPagoPorReserva($idReserva)
+{
+    $pago = Pago::where('id_reserva', $idReserva)->first();
+
+    if (!$pago) {
+        return response()->json(['error' => 'Pago no encontrado.'], 404);
+    }
+
+    return response()->json($pago);
+}
+
 }

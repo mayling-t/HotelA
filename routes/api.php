@@ -28,10 +28,14 @@ Route::get('/habitaciones/buscar-por-tipo', [HabitacionController::class, 'busca
 // Finalmente el recurso RESTful (apiResource)
 Route::apiResource('habitaciones', HabitacionController::class);
 // Reservas
+
+Route::get('/reservas/{id}/servicios-extras', [ReservaController::class, 'show']);
+
 Route::get('/reservas', [ReservaController::class, 'index']);
 Route::post('/reservas', [ReservaController::class, 'store']);
 Route::put('/reservas/{id}/cancelar', [ReservaController::class, 'cancelar']);
 Route::get('/habitaciones/{id}/disponibilidad', [HabitacionController::class, 'disponibilidadPorHabitacion']);
+Route::get('/reservas/cliente/{id}', [ReservaController::class, 'reservasPorCliente']);
 
 // Clientes
 
@@ -42,6 +46,9 @@ Route::put('/clientes/{id}', [ClienteController::class, 'update']);
 Route::get('/clientes/{dni}/buscar', [ClienteController::class, 'buscarPorDni']);
 Route::get('/cliente/{id}/reservas', [ClienteController::class, 'listarReservas']);
 Route::get('/cliente/usuario/{id}', [ClienteController::class, 'buscarPorUsuario']);
+
+// En routes/api.php
+Route::get('/clientes/buscar-por-dni', [ClienteController::class, 'buscarClientePorDni']);
 
 
 
@@ -57,6 +64,7 @@ Route::post('/pagos', [PagoController::class, 'store']);
 Route::get('/pagos/{id}', [PagoController::class, 'show']);
 Route::put('/pagos/{id}', [PagoController::class, 'update']);
 Route::delete('/pagos/{id}', [PagoController::class, 'destroy']);
+Route::get('/pagos/{idReserva}', [PagoController::class, 'obtenerPagoPorReserva']);
 
 // Check-in / Check-out
 Route::get('/checkin-checkout', [CheckinCheckoutController::class, 'index']);
@@ -67,9 +75,17 @@ Route::post('/checkout', [CheckinCheckoutController::class, 'realizarCheckout'])
 Route::get('/checkinout/historial', [CheckinCheckoutController::class, 'historial']);
 
 // Relación Reserva - Servicios Extras
-Route::get('/reserva-servicios-extras', [ReservaServicioExtraController::class, 'index']);
-Route::post('/reserva-servicios-extras', [ReservaServicioExtraController::class, 'store']);
-Route::delete('/reserva-servicios-extras/{id}', [ReservaServicioExtraController::class, 'destroy']);
+
+Route::post('/reserva-servicios', [ReservaServicioExtraController::class, 'store']);
+Route::get('/reservas/{id}/servicios-extras', [ReservaServicioExtraController::class, 'serviciosPorReserva']);
+Route::get('/reserva-servicios', [ReservaServicioExtraController::class, 'index']);
+Route::delete('/reserva-servicios/{id}', [ReservaServicioExtraController::class, 'destroy']);
+
+
+Route::get('/reservas/{id}/servicios-extras', [ReservaServicioExtraController::class, 'serviciosPorReserva']);
+
+
+
 
 
 Route::get('/usuarios', [UsuarioController::class, 'index']);

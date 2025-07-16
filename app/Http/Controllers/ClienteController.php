@@ -117,7 +117,7 @@ class ClienteController extends Controller
             return response()->json(['mensaje' => 'Cliente no encontrado'], 404);
         }
 
-        $reservas = $cliente->reservas; // relación definida en modelo Cliente
+$reservas = $cliente->reservas()->with('habitacion')->get();
 
         return response()->json($reservas, 200);
     }
@@ -131,5 +131,19 @@ class ClienteController extends Controller
 
     return response()->json($cliente);
 }
+
+// En ClienteController.php
+public function buscarClientePorDni(Request $request)
+{
+    $dni = $request->query('dni');
+    $cliente = Cliente::where('dni', $dni)->first();
+
+    if (!$cliente) {
+        return response()->json(['mensaje' => 'Cliente no encontrado'], 404);
+    }
+
+    return response()->json($cliente);
+}
+
 
 }
