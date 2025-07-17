@@ -36,6 +36,7 @@ Route::get('/habitaciones/{id}', [HabitacionController::class, 'show']);
 
 Route::get('/reservas/{id}/servicios-extras', [ReservaController::class, 'show']);
 
+
 Route::get('/reservas', [ReservaController::class, 'index']);
 Route::post('/reservas', [ReservaController::class, 'store']);
 Route::put('/reservas/{id}/cancelar', [ReservaController::class, 'cancelar']);
@@ -71,7 +72,7 @@ Route::post('/pagos', [PagoController::class, 'store']);
 Route::get('/pagos/{id}', [PagoController::class, 'show']);
 Route::put('/pagos/{id}', [PagoController::class, 'update']);
 Route::delete('/pagos/{id}', [PagoController::class, 'destroy']);
-Route::get('/pagos/{idReserva}', [PagoController::class, 'obtenerPagoPorReserva']);
+Route::get('/pagos/reserva/{idReserva}', [PagoController::class, 'obtenerPagoPorReserva']);
 
 // Check-in / Check-out
 Route::get('/checkin-checkout', [CheckinCheckoutController::class, 'index']);
